@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Video</title>
+</head>
+<body>
+
+  <video width="640" height="360" controls id="myVideo" loop> <source src="https://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <p id="volumeIndicator"></p>
+
+  <script>
+    const video = document.getElementById("myVideo");
+    const volumeIndicator = document.getElementById("volumeIndicator");
+
+    video.addEventListener("volumechange", function() {
+      if (video.volume > video.previousVolume) {
+        volumeIndicator.textContent = "Video volume +";
+      } else if (video.volume < video.previousVolume) {
+        volumeIndicator.textContent = "Video volume -";
+      }
+      video.previousVolume = video.volume; // Update the previous volume
+    });
+  </script>
+
+</body>
+</html>

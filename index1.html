@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Video</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 15px;
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        video {
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        #volumeIndicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #volumeIndicator.show {
+            opacity: 1;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            video {
+                margin-top: 10px;
+            }
+
+            #volumeIndicator {
+                bottom: 40px;
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video width="640" height="360" controls id="myVideo" loop>
+        <source src="https://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div id="volumeIndicator"></div>
+
+    <script>
+        const video = document.getElementById("myVideo");
+        const volumeIndicator = document.getElementById("volumeIndicator");
+        let hideTimeout;
+
+        video.addEventListener("volumechange", function() {
+            // Clear any existing timeout
+            clearTimeout(hideTimeout);
+
+            if (video.volume > video.previousVolume) {
+                volumeIndicator.textContent = "Video volume +";
+            } else if (video.volume < video.previousVolume) {
+                volumeIndicator.textContent = "Video volume -";
+            }
+            
+            // Show the indicator
+            volumeIndicator.classList.add('show');
+
+            // Hide the indicator after 1.5 seconds
+            hideTimeout = setTimeout(() => {
+                volumeIndicator.classList.remove('show');
+            }, 1500);
+
+            video.previousVolume = video.volume;
+        });
+    </script>
+</body>
+</html>
